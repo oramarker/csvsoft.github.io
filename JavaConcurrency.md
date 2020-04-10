@@ -112,9 +112,19 @@ Counting semaphores are used to **control the number of activities** that can ac
 
 ### Barrier
 
+A synchronization aid that **allows a set of threads to all wait for each other to reach a common barrier point.**
+
+ CyclicBarriers are useful in programs involving a fixed sized party of threads that must occasionally wait for each other. 
+
+The barrier is called *cyclic* because it can be re-used after the waiting threads are released(barrier.reset()) .
+
+A `CyclicBarrier` supports an optional [`Runnable`](https://docs.oracle.com/javase/7/docs/api/java/lang/Runnable.html) command that is run once per barrier point, after the last thread in the party arrives, but before any threads are released. This *barrier action* is useful for updating shared-state before any of the parties continue.
+
 CyclicBarrier is used to make threads wait for each other. It is used when different threads process a part of computation and when all threads have completed the execution, the result needs to be combined in the parent thread. 
 
 A barrier breaks when any of the waiting thread leaves the barrier. This happens when one or more waiting thread is interrupted or when the waiting time is completed because the thread called the await() methods with a timeout as follows:
+
+In the worker thread,the await method need to be invoked after the computation, the core method is await(int time, TimeUnit unit) --Waits until all [parties](https://docs.oracle.com/javase/7/docs/api/java/util/concurrent/CyclicBarrier.html#getParties()) have invoked `await` on this barrier.
 
 The difference between a Barrier and CountDountLatch
 
