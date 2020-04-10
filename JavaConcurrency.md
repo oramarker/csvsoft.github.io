@@ -106,7 +106,7 @@ A futureTask represents a result-bearing computation that implements Future and 
 
 ### Semaphore
 
-Counting semaphores are used to **control the number of activities** that can access a certain resource or perform a given action at the same time, It  is widely used in the resource pool implementations.
+Counting semaphores are used to **control the number of activities** that can access a certain resource or perform a given action at the same time, It  is widely used in the resource pool implementations or bounded collections.
 
 
 
@@ -130,3 +130,6 @@ The difference between a Barrier and CountDountLatch
 
 - A CountDownLatch can be used only once in a program(until it’s count reaches 0).
 - A CyclicBarrier can be used again and again once all the threads in a barriers is released.
+
+Example: [BarrierTest](https://github.com/csvsoft/javaconcurrency/blob/master/src/test/java/com/test/BarrierTest.java)
+
