@@ -8,7 +8,33 @@ permalink: /javaConcurrency/
 
 The concurrent tasks that run inside a process are called threads
 
+## Java Memory Model
 
+The Java Memory Model requires fetch and store operations to be atomic, but for nonvolatile long and double variables, **the JVM is permitted to treat a 64-bit(long or double) read or write as two separate 32-bit operations.**
+
+## Volatile Variables
+
+When a field is declared volatile, the compiler and runtime are put on notice that this variable is shared and that operations on it should not be reordered with other memory operations. Volatile variables are not cached in registers or in caches where they are hidden from other processors, so a read of a volatile variable always returns the most recent write by any thread.
+
+ * Volatile variables can only guarantee visibility.
+ * Not strong enough to provide atomicity.
+
+## Lock
+
+Locking is not just about mutual exclusion; it is also about memory visibility.
+
+### Thread Safety
+
+A piece of code is called thread safe means the code will always behave correctly when accessed from multi-threads, without additional synchronization or coordination on the part of the calling code, regardless the scheduling or interleaving of he execution of those threads by the runtime environments.
+One of technique to achieve thread safety without synchronization is thread confinement, make the variable only accessible to a single thread, e.g. local variable, thread local variables.
+
+Local variables are intrinsically confined to the executing thread; they exist on the executing thread's stack, which is not accessible to other threads.
+Thread-Local provides get and set accessor methods that maintain a separate copy of the value for each thread that uses it, so a get returns the most recent value passed to set from the currently executing thread.
+Conceptually, you can think of a ThreadLocal<T> as holding a Map<Thread,T>
+
+### Intrinsic Lock
+
+Each object has a built-in intrinsic lock. The intrinsic lock is reentrant. The fact that every object has a built-in lock is just a convenience so that you needn't explicitly create lock objects.
 
 ### Thread States
 
@@ -74,7 +100,35 @@ The ReentrantLock class implements the Lock interface and provides synchronizati
 
 **ReentrantLock allow threads to enter into lock on a resource more than once**. When the thread first enters into lock, a hold count is set to one. Before unlocking the thread can re-enter into lock again and every time hold count is incremented by one. For every unlock request, hold count is decremented by one and when hold count is 0, the resource is unlocked.
 
+
+
+### Future
+
+Future serves as the result of an aysynchronous compution, It is created by submitting a callable/runnable to a executor service. The get method will block to get the result.
+
+### CompletableFuture
+
+CompletableFuture implements CompletionStage and Future Interface , the name comes from that it is shipped with a method that the future can be explicitly completed.
+
+By default, the task is submit to the thread pool: **ForkJoinPool.commonPool**, but custom executor service could be provided in the *Async APIs.
+
+* A completionStage represents a stage of a certain computation which can be done either synchronously or asynchronously. You can think of it as just a single unit of a pipeline of computations that ultimately generates a final result of interest
+
+*  To execute tasks without returning result: runSync, runAsync, thenRun, thenRunAsync
+
+* To execute task with returning result: supplyAsync
+
+* Chaining methods: thenApply, thenAccept, thenCompose, thenCombine,thenAcceptBoth,thenApplyToEither
+
+  
+
 ### Concurrent Collections
+
+### ConcurrenyHashMap
+
+* Introduced in 1.5
+* It allows concurrent access to a hash map, it only gets locked when multiple threads tries to modify the same **segment**
+* Parameters: initial capacity, load factor ( for resizing),concurrencyLevel(default to 16 power of 2)
 
 #### CopyOnWriteArrayList 
 
@@ -101,8 +155,14 @@ T
 A futureTask represents a result-bearing computation that implements Future and Runnable. It has the following states:
 
 * Waiting to run
+
 * Runing
+
 * Completed
+
+  
+
+  FutureTask is used by the Executor framework to represent asynchronous tasks
 
 ### Semaphore
 
