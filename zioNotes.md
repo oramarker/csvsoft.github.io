@@ -14,9 +14,7 @@ Pure functions do not interact with external world directly, instead they return
 
 ### Functinal Programming
 
-Functional programming is to build applications by combining pure functions
-
-in a total, deterministic way.
+Functional programming is to build applications by combining pure functions in a total, deterministic way.
 
 
 
@@ -24,19 +22,17 @@ in a total, deterministic way.
 
 ZIO is a library for pure functional programming in scala. At its core, is the ZIO data structure.
 
-Zio[R,E,A] is a **immutable data structure **data structure that **describes** a effectual program, which may fail with a value of type E ,or succeed with a value of type A with the input environmental vaue of type R. A value of type ZIO[R,E,A] is like a effectual function 
+Zio[R,E,A] is a **immutable data structure **data structure that **describes** an effectual program, which may fail with a value of type E ,or succeed with a value of type A with the input environmental vaue of type R. A value of type ZIO[R,E,A] is like a effectual function 
 
 ```scala
 R => Either[E,A]
 ```
 
-### Return Value Type
+### Return Value Type - A
 
 A is the value type that the effect can succeed with, it is the output of the function
 
-###  
-
-### Error Type
+### Error Type - E
 
 The error type represents the potential ways that an effect can fail. The error type is helpful because it allows us to use operators (like flatMap) that work on the success type of the effect, while deferring error handling until higher-levels. This allows us to **concentrate on the “happy path” of the program** and **handle errors at the right place**.
 
@@ -48,7 +44,9 @@ ZIO[R,Nothing,A]
 
 
 
-### Environmental Type
+### Environmental Type -R
+
+It represents the requirements to run the ZIO effect
 
 Envrionmental type models the environment or services that the ZIO value requires to evaluate.
 
@@ -97,6 +95,8 @@ Task[A] == ZIO[Any,Throable,A]
 ```
 
 ## Construct ZIO
+
+[code](https://github.com/csvsoft/zio-note/blob/develop/src/test/scala/zio/notes/create/CreateSpec.scala)
 
 1. General Effect to capture code that may execute side effect operations
 
