@@ -4,3 +4,5 @@
 
 [Java Concurrency](JavaConcurrency.md)
 
+### Scala
+[ZIO](zioNotes.md)
