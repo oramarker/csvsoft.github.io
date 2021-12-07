@@ -16,7 +16,9 @@ Pure functions do not interact with external world directly, instead they return
 
 Functional programming is to build applications by combining pure functions in a total, deterministic way.
 
+### Side Effect
 
+In [computer science](https://en.wikipedia.org/wiki/Computer_science), an operation, [function](https://en.wikipedia.org/wiki/Subroutine) or [expression](https://en.wikipedia.org/wiki/Expression_(programming)) is said to have a **side effect** if it modifies some [state](https://en.wikipedia.org/wiki/State_(computer_science)) variable value(s) outside its local environment, that is to say has an observable effect besides returning a value (the main effect) to the invoker of the operation. State data updated "outside" of the operation may be maintained "inside" a stateful object or a wider stateful system within which the operation is performed. Example side effects include **modifying a non-local variable**, **modifying a static local variable, modifying a mutable argument passed by reference**, performing [I/O](https://en.wikipedia.org/wiki/I/O) or calling other side-effect functions. In the presence of side effects, a program's behaviour may depend on history; that is, the order of evaluation matters. Understanding and debugging a function with side effects requires knowledge about the context and its possible histories
 
 ### What is ZIO
 
@@ -185,6 +187,15 @@ Task[A] == ZIO[Any,Throable,A]
 
 Shedule[A,B] is an immutable value that describes a schedule effect, it consumes a vale of type A and produces a B and the decides to continue or halt some delay d;
 
+* windowed(d:Duration)  
+
+  ```
+  A schedule that divides the timeline to `interval`-long windows, and sleeps
+  * until the nearest window boundary every time it recurs.
+  ```
+
+* exponential(base:Duration, factor:Double)
+
 ### Fiber
 
 Fiber is a lightweight thread for concurrency , they are lightweight "green threads" implemented by the ZIO runtime system; All ZIO effect are executed by some finer.
@@ -256,7 +267,37 @@ Fibers are scheduled by the ZIO runtime and will cooperatively yield to each oth
 
 ###  Chunks
 
+The reason to use Chunks instead of Array
+
 * Chunks are immutable
+* Array needs classTag
+
+#### Promise
+
+A `Promise[E, A]` is a variable of type `IO[E, A]` that can be **set excactly once** used for fiber communications.
+
+It is used to build higher level concurrency primitives; A promise could be completed with effects or fail with      the specified type.
+
+* complete(e:IO[E,A]) : Completes the promise with the **result** of the specified effect
+* completeWith(e:IO[E,A]): Completes the promise with the effect(not the result), the effect could be evaluated multiple times and may result in different result. 
+* fail(e: => E) fails the promise with the given errror value;
+* interrupt
+
+
+
+#### Ref
+
+The `ZRef` type is used for concurrently read and write a single zio-value, it can be set/updated atomically and thread safely, it is  the foundation for other ZIO primitives.
+
+#### Semaphore
+
+A `Semaphore` data type synchronize fibers by safely acquiring and releasing a _permit_. It is based on `Ref[A]`.
+
+- `Semaphore.make(permits)`: to create a semaphore of type `UIO[Semaphore]` with the specified number of permits.
+- `available`: the nubmer of available permits
+- `withPermit(task)`: acquire a permit for a task
+
+When task is completed, whether succeeds or fails, the acquired permits are released.
 
 ### ZLayer
 
