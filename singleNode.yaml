@@ -1,19 +1,3 @@
-### Install Single Node ElasticSearch
-
-
-
-elasticsearch deployment 
-
-arm64
-
-```shell
-sudo mkdir -p /var/elasticsearch/data
-sudo chown servacct /var/elasticsearch/data
-kubectl apply -f es_deployment.yaml
-
-```
-
-```yaml
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -86,19 +70,3 @@ spec:
   selector:
     run: elasticsearch
   type: LoadBalancer
-
-```
-
-
-
-```shell
-kubectl exec --stdin --tty elasticsearch -- /bin/bash
-```
-
-#### Check Status
-
-```shell
-curl http://<host>/_status
-
-```
-
