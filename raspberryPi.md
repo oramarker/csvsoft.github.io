@@ -214,10 +214,13 @@ acme.sh --register-account -m vinson.zhang@gmail.com
 [Mon Aug 23 18:57:14 EDT 2021] ACCOUNT_THUMBPRINT='SM25svWSajnGI-m2nOUBcQFfGuXQcGP3nDtQ-lXEoHk'
 
 # api keys
-export GD_Secret=RpY4ZBL5JLkmx3zVHsLPSP
-export GD_Key=fXqGGX4ooXgy_GvXfAGoYNPh8ye16Ui2xgN
+export GD_Secret=
+export GD_Key=
 # issue an certificate
 acme.sh --issue -d "*.everpx.com" --dns dns_gd 	
+
+#webroot mode
+  acme.sh  --issue  -d *.everpx.com  --nginx /etc/nginx/sites-available/everpx.com
 
 # install the cert
 acme.sh --install-cert -d everpx.com \
