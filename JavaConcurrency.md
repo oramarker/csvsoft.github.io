@@ -100,8 +100,13 @@ The ReentrantLock class implements the Lock interface and provides synchronizati
 
 **ReentrantLock allow threads to enter into lock on a resource more than once**. When the thread first enters into lock, a hold count is set to one. Before unlocking the thread can re-enter into lock again and every time hold count is incremented by one. For every unlock request, hold count is decremented by one and when hold count is 0, the resource is unlocked.
 
-
-
+### Executor
+It includes 3 interfaces:
+ * Executor
+ *  ExecutorService
+ *  ScheduledExecutorService
+ 
+ 
 ### Future
 
 Future serves as the result of an aysynchronous compution, It is created by submitting a callable/runnable to a executor service. The get method will block to get the result.
