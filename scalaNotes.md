@@ -292,3 +292,5 @@ A future is a **placeholder object** for a value that may be become available at
 A Promise is a function that let client to fulfil the future.
 
 By returning a promise you are giving the right to complete it to somebody else, which allows the client to complete (only once)it at its will, and by returning the future you are giving the right to subscribe to it
+
+## Akka
